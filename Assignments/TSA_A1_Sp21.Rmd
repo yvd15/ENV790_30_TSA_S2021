@@ -1,10 +1,12 @@
 ---
 title: "ENV 790.30 - Time Series Analysis for Energy Data | Spring 2021"
 subtitle: "Assignment 1 - Due date 01/27/21"
-author: "Student Name"
+author: "Yash Doshi"
 output: pdf_document
 geometry: margin=2.54cm
 ---
+
+***
 
 ## Directions
 
@@ -15,21 +17,33 @@ Then you will start working through the assignment by  **creating code and outpu
 
 When you have completed the assignment, **Knit** the text and code into a single PDF file. Rename the pdf file such that it includes your first and last name (e.g., "LuanaLima_TSA_A01_Sp21.Rmd"). Submit this pdf using Sakai. 
 
+\medskip
+
+***
+
 ## Questions
 
-Q1. What are your previous experiences with time series analysis, R, and Git? 
+\medskip
 
-> Answer: 
+**Q1. What are your previous experiences with time series analysis, R, and Git?** 
 
+> I took a course in my undergrad called Business Analytics for Decision Making. In this course, the professor touched base on the basics of TSA in general, and ARIMA and ARMA models. It was pretty difficult to understand ARIMA and ARMA back then, since it was all theoretical. Apart from that, I also took Marketing analytics courses. In these courses, I learned about different methods of forecasting in Microsoft Excel. In a group project, I used Winter's Method in Excel to forecast the automobile sales in India for 3 years.
 
-Q2. Provide a link below to your forked course repository in GitHub. Make sure you have pulled all recent changes from the course repository and that you have updated your course README file as instructed on the recorded video "Getting started with Git and Github". 
+> My first experience with R was in my first semester at Duke, when I took Applied Data Analysis for the Environmental and Natural Sciences (ENV710). I do not have prior any experience apart from that.
 
-> Answer: 
+> This is my first experience with Git.
 
+\medskip
 
-Q3. For this part we just want to see the path to your R project. No need to do anything. The output will be automatically generated once you knit you file. 
+**Q2. Provide a link below to your forked course repository in GitHub. Make sure you have pulled all recent changes from the course repository and that you have updated your course README file as instructed on the recorded video "Getting started with Git and Github".** 
 
-> Answer: This is my working directory:
+> **Link:**  https://github.com/yvd15/ENV790_30_TSA_S2021.git
+
+\medskip
+
+**Q3. For this part we just want to see the path to your R project. No need to do anything. The output will be automatically generated once you knit you file.**
+
+> This is my working directory:
 
 ```{r}
 getwd()
