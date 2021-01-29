@@ -1,0 +1,6 @@
+install.packages("forecast")
+install.packages("tseries")
+install.packages("dplyr")
+library(forecast)
+library(tseries)
+library(dplyr)
