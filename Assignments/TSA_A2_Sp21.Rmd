@@ -145,11 +145,11 @@ sd3
 p = ggplot(data = eia, aes(x = Month, 
                y = `Total Biomass Energy Production (Trillion Btu)`)) + 
   geom_line(color = "#69b3a2") + 
-  xlab("Month") + 
+  xlab("Time") + 
   ylab("Total Biomass Energy Production") +
   ggtitle("Time Series Plot for Total Biomass Energy Production (Trillion Btu)") +
   theme_bw()
-p + scale_x_date(date_labels = "%Y %b") +
+p + scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b") +
   geom_hline(yintercept = mean(eia$`Total Biomass Energy Production (Trillion Btu)`), 
                color = 2)
 
@@ -160,12 +160,12 @@ p + scale_x_date(date_labels = "%Y %b") +
 q = ggplot(eia, aes(x = Month, 
                     y = `Total Renewable Energy Production (Trillion Btu)`)) +
   geom_line(color = "#69b3a2") + 
-  xlab("Month") + 
+  xlab("Time") + 
   ylab("Total Renewable Energy Production") +
   ggtitle("Time Series Plot for Total Renewable Energy Production (Trillion Btu)") +
   theme_bw()
 q + geom_hline(yintercept = mean(eia$`Total Renewable Energy Production (Trillion Btu)`), color = 2) + 
-  scale_x_date(date_labels = "%Y %b")
+  scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b")
 
 ```
 
@@ -176,12 +176,12 @@ q + geom_hline(yintercept = mean(eia$`Total Renewable Energy Production (Trillio
 he = ggplot(eia, aes(x = Month, 
                      y = `Hydroelectric Power Consumption (Trillion Btu)`)) +
   geom_line(color = "#69b3a2") + 
-  xlab("Month") + 
+  xlab("Time") + 
   ylab("Hydroelectric Power Consumption") +
   ggtitle("Time Series Plot for Hydroelectric Power Consumption (Trillion Btu)") +
   theme_bw()
 he + geom_hline(yintercept = mean(eia$`Hydroelectric Power Consumption (Trillion Btu)`), color = 2) + 
-  scale_x_date(date_labels = "%Y %b")
+  scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b")
 
 ```
 
@@ -190,6 +190,8 @@ he + geom_hline(yintercept = mean(eia$`Hydroelectric Power Consumption (Trillion
 # Question 5
 
 ## Compute the correlation between these three series. Are they significantly correlated? Explain your answer.
+
+\newpage
 
 ***Correlation between Total Biomass Energy Production and Total Renewable Energy Production***
 ```{r Q5.1}
