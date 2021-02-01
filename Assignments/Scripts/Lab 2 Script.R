@@ -55,11 +55,11 @@ cor3
 p = ggplot(data = eia, aes(x = Month, 
                y = `Total Biomass Energy Production (Trillion Btu)`)) + 
   geom_line(color = "#69b3a2") + 
-  xlab("Month") + 
+  xlab("Time") + 
   ylab("Total Biomass Energy Production") +
-  theme_ipsum() +
+  theme_bw() +
   ggtitle("Plot of Total Biomass Energy Production \n (Trillion Btu)")
-p + scale_x_date(date_labels = "%Y %b") +
+p + scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b") +
   geom_hline(yintercept = mean(eia$`Total Biomass Energy Production (Trillion Btu)`), 
                color = 2)
 
@@ -77,12 +77,13 @@ plot(pacf1, main = "Total Biomass Energy Production", col = "darkorchid4")
 q = ggplot(eia, aes(x = Month, 
                     y = `Total Renewable Energy Production (Trillion Btu)`)) +
   geom_line(color = "#69b3a2") + 
-  xlab("Month") + 
+  xlab("Time") + 
   ylab("Total Renewable Energy Production") +
-  theme_ipsum() +
+  theme_bw() +
   ggtitle("Plot of Total Renewable Energy Production (Trillion Btu)")
 q + geom_hline(yintercept = mean(eia$`Total Renewable Energy Production (Trillion Btu)`),
-                color = 2) + scale_x_date(date_labels = "%Y %b")
+                color = 2) + scale_x_date(date_minor_breaks = "2 years",
+                                          date_labels = "%Y %b")
 
 
 #ACF and PACF
@@ -99,12 +100,13 @@ plot(pacf2, main = "Total Renewable Energy Production", col = "darkorchid4")
 he = ggplot(eia, aes(x = Month, 
                      y = `Hydroelectric Power Consumption (Trillion Btu)`)) +
   geom_line(color = "#69b3a2") + 
-  xlab("Month") + 
+  xlab("Time") + 
   ylab("Hydroelectric Power Consumption") +
-  theme_ipsum() +
+  theme_bw() +
   ggtitle("Plot of Hydroelectric Power Consumption (Trillion Btu)")
 he + geom_hline(yintercept = mean(eia$`Hydroelectric Power Consumption (Trillion Btu)`),
-                color = 2) + scale_x_date(date_labels = "%Y %b")
+                color = 2) + scale_x_date(date_minor_breaks = "2 years",
+                                          date_labels = "%Y %b")
 
 
 #ACF and PACF
