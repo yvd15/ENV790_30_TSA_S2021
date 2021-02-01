@@ -100,7 +100,7 @@ sd1 = sd(eia$`Total Biomass Energy Production (Trillion Btu)`)
 sd1
 ```
 
-\medskip
+\newpage
 
 ***Mean and Standard Deviation of Total Renewable Energy Production***
 
