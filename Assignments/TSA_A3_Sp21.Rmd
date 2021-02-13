@@ -1,11 +1,13 @@
 ---
 title: "ENV 790.30 - Time Series Analysis for Energy Data | Spring 2021"
 subtitle: "Assignment 3 - Due date 02/12/21"
-author: "Student Name"
+author: "Yash Doshi"
 output: pdf_document
-geometry: margin=2.54cm
+geometry: margin=1.3cm
 ---
-  
+
+***
+
 ## Directions
   
 You should open the .rmd file corresponding to this assignment on RStudio. The file is available on our class repository on Github. 
@@ -16,10 +18,13 @@ Then you will start working through the assignment by  **creating code and outpu
 Please keep this R code chunk options for the report. It is easier for us to grade when we can see code and output together. And the tidy.opts will make sure that line breaks on your code chunks are automatically added for better visualization. 
 
 ```{r setup, include=FALSE} 
-knitr::opts_chunk$set(echo = TRUE,tidy.opts=list(width.cutoff=80), tidy=FALSE) 
+knitr::opts_chunk$set(echo = F, eval = T, comment = NA, message = F,warning = F,
+                      fig.width = 7, fig.height = 4.2)
 ```
 
 When you have completed the assignment, **Knit** the text and code into a single PDF file. Rename the pdf file such that it includes your first and last name (e.g., "LuanaLima_TSA_A01_Sp21.Rmd"). Submit this pdf using Sakai. 
+
+***
 
 ## Questions 
 
@@ -29,37 +34,361 @@ R packages needed for this assignment:"forecast","tseries", and "Kendall". Insta
 
 ```{r}
 #Load/install required package here
+library(forecast)
+library(tseries)
+library(Kendall)
+library(dplyr)
+library(readxl)
+library(ggplot2)
+
+setwd("/Users/yashdoshi/Desktop/Duke/Courses/Spring 2021/Time Series Analysis/Labs/Lab Work/ENV790_30_TSA_S2021/Data")
+library(readxl)
+eia = read_excel("Table_10.1_Renewable_Energy_Production_and_Consumption_by_Source.xlsx")
+eia$Month = as.Date(eia$Month, format = "%m/%y")
+eia[2:3] = NULL
+eia[5:12] = NULL
+eia = as.data.frame(eia)
+```
+
+***
+
+# Trend Component
+
+# Q1
+**Create a plot window that has one row and three columns. And then for each object on your data frame, fill the plot window with time series plot, ACF and PACF. You may use the same code form A2, but I want all three plots on the same window this time. (Hint: watch videos for M4)**
+
+```{r Q1}
+#Converting to TS object
+eiats = ts(data = eia[,2:4], start = 1973, frequency = 12)
+
+btu = ncol(eia)
+
+#Plotting Graph, ACF, and PACF
+for(i in 2:btu){
+  par(mfrow = c(1,3))
+  plot(eia[,i], col = "#69b3a2", ylab = "Trillion Btu", type = "l")
+  acf(eia[,i], lag.max = 40)
+  pacf(eia[,i])
+}
 
 ```
 
-##Trend Component
+# Q2
+**From the plot in Q1, do the series Total Biomass Energy Production, Total Renewable Energy Production, Hydroelectric Power Consumption appear to have a trend? If yes, what kind of trend?**
 
-### Q1
-Create a plot window that has one row and three columns. And then for each object on your data frame, fill the plot window with time series plot, ACF and PACF. You may use the some code form A2, but I want all three plots on the same window this time. (Hint: watch videos for M4)
+\medskip
+\medskip
 
-### Q2
-From the plot in Q1, do the series Total Biomass Energy Production, Total Renewable Energy Production, Hydroelectric Power Consumption appear to have a trend? If yes, what kind of trend?
+*Total Biomas Energy Production*
 
-### Q3
-Use the *lm()* function to fit a linear trend to the three time series. Ask R to print the summary of the regression. Interpret the regression output, i.e., slope and intercept. Save the regression coefficients for further analysis.
+This plot shows that there is some sort of trend. It can be seen that the graph is initially rising, then it becomes constant for osme time, then it rises steeply again. During the end (2020), it can be seen that the trend dropped. This might be due to COVID.
+
+\medskip
+
+*Total Renewable Enegry Production*
+
+This plot shows that there is a trend. The trend observed in this plot is very similar to that observed in the, "Total Biomass Energy Production." It can be seen that the graph is initially rising, then it becomes constant for osme time, then it rises steeply again.
+
+\medskip
+
+*Hydroelectric Power Consumption*
+
+This plot shows very minimal trend. If observed carefully, it can be seen that the trend is decreasing in the later years.
+
+\medskip
+\medskip
+
+# Q3
+**Use the *lm()* function to fit a linear trend to the three time series. Ask R to print the summary of the regression. Interpret the regression output, i.e., slope and intercept. Save the regression coefficients for further analysis.**
+
+\medskip
+\medskip
+
+Below are the plots and linear regression summaries of all three columns.
+
+```{r Q3.1}
+#Plot
+p = ggplot(data = eia, aes(x = Month, 
+                           y = `Total Biomass Energy Production (Trillion Btu)`)) + 
+  geom_line(color = "#69b3a2") + 
+  xlab("Time") + 
+  ylab("Total Biomass Energy Production") +
+  theme_bw() +
+  ggtitle("Plot of Total Biomass Energy Production (Trillion Btu)") +
+  scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b") +
+  geom_smooth(method = "lm", color = 2)
+p
+
+t = c(1:nrow(eia))
+
+#Linear Model
+lm1 = lm(eia$`Total Biomass Energy Production (Trillion Btu)` ~ t)
+summary(lm1)
+
+```
+
+```{r Q3.2}
+#Plot
+q = ggplot(data = eia, aes(x = Month, 
+                           y = `Total Renewable Energy Production (Trillion Btu)`)) +
+  geom_line(color = "#69b3a2") +
+  xlab("Time") +
+  ylab("Total Renewable Energy Production (Trillion Btu)") +
+  theme_bw() +
+  ggtitle("Plor of Total Renewable Energy Production (Trillion Btu)") +
+  geom_smooth(method = "lm", col = 2) +
+  scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b")
+q
+
+#Linear Model
+lm2 = lm(eia$`Total Renewable Energy Production (Trillion Btu)` ~ t)
+summary(lm2)
+```
+
+```{r Q3.3}
+#Plot
+he = ggplot(data = eia, aes(x = Month, y = `Hydroelectric Power Consumption (Trillion Btu)`)) +
+  geom_line(color = "#69b3a2") +
+  xlab("Time") +
+  ylab("Hydroelectric Power Consumption (Trillion Btu)") +
+  theme_bw() +
+  geom_smooth(method = "lm", col = "2") +
+  ggtitle("Plot for Hydroelectric Power Consumption (Trillion Btu)") +
+  scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b")
+he
+
+#Linear Model
+lm3 = lm(eia$`Hydroelectric Power Consumption (Trillion Btu)` ~ t)
+summary(lm3)
+
+```
  
-### Q4
-Use the regression coefficients from Q3 to detrend the series. Plot the detrended series and  compare with the plots from Q1. What happened? Did anything change?
+# Q4
+**Use the regression coefficients from Q3 to detrend the series. Plot the detrended series and  compare with the plots from Q1. What happened? Did anything change?**
 
-### Q5
-Plot ACF and PACF for the detrended series and compare with the plots from Q1. Did the plots change? How?
+\medskip
+\medskip
 
-## Seasonal Component
-
-Set aside the detrended series and consider the original series again from Q1 to answer Q6 to Q8.
-
-### Q6
-Do the series seem to have a seasonal trend? Which serie/series? Use function *lm()* to fit a seasonal means model to this/these time series. Ask R to print the summary of the regression. Interpret the regression output. Save the regression coefficients for further analysis.
-
-### Q7
-Use the regression coefficients from Q6 to deseason the series. Plot the deseason series and compare with the plots from part Q1. Did anything change?
-
-### Q8
-Plot ACF and PACF for the deseason series and compare with the plots from Q1. Did the plots change? How?
+```{r Q4.1 }
+#Plot for Total Biomass Energy Production
+b0 = as.numeric(lm1$coefficients[1])
+b1 = as.numeric(lm1$coefficients[2])
 
 
+detrend_data = eia$`Total Biomass Energy Production (Trillion Btu)` - (b0 + b1*t)
+
+pe = ggplot(data = eia, aes(x = Month, 
+                            y = `Total Biomass Energy Production (Trillion Btu)`)) + 
+  geom_line(color = "#69b3a2") + 
+  xlab("Time") + 
+  ylab("Total Biomass Energy Production") +
+  theme_bw() +
+  ggtitle("Plot of Total Biomass Energy Production (Trillion Btu)") +
+  scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b") +
+  geom_smooth(method = "lm", color = 2) +
+  geom_line(mapping = aes(y = detrend_data), col = "darkorchid4") +
+  geom_smooth(aes(y = detrend_data), col = "2", method = "lm")
+pe
+
+```
+
+The blue plot shows the original plot with the trend, whereas, the purple one shows no trend. Total Biomass Energy Production showed an increasing trend. It means that as time passed, the amount of biomass produced was increasing. After detrending, we can see that the trend is at 0 and is remaining constant. Detrending also helps us in identifying any seasonality (if there is any). In thi case there is no visible trend.
+
+
+```{r Q4.2}
+#Plot for total renewable energy consumption
+b00 = as.numeric(lm2$coefficients[1])
+b11 = as.numeric(lm2$coefficients[2])
+
+detrend_data2 = eia$`Total Renewable Energy Production (Trillion Btu)` - (b00 + b11*t)
+
+qe = ggplot(data = eia, aes(x = Month, 
+                            y = `Total Renewable Energy Production (Trillion Btu)`)) +
+  geom_line(color = "#69b3a2") +
+  xlab("Time") +
+  ylab("Total Renewable Energy Production (Trillion Btu)") +
+  theme_bw() +
+  ggtitle("Plor of Total Renewable Energy Production (Trillion Btu)") +
+  geom_smooth(method = "lm", col = 2) +
+  scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b") +
+  geom_line(mapping = aes(y = detrend_data2), col = "darkorchid4") +
+  geom_smooth(aes(y = detrend_data2), col = "4", method = "lm")
+qe
+
+```
+
+The above plot on Total Renewable Energy Production shows us the trend (blue plot) and detrend (purple plot). After detrending, we can see that the trend is at 0 and is remaining constant. Detrending also helps us in identifying any seasonality (if there is any). In thi case there is no visible trend.
+
+
+```{r Q4.3}
+#Plot for hydroelectric power consumption
+b000 = as.numeric(lm3$coefficients[1])
+b111 = as.numeric(lm3$coefficients[2])
+
+detrend_data3 = eia$`Hydroelectric Power Consumption (Trillion Btu)` - (b000 + b111*t)
+
+hee = ggplot(data = eia, aes(x = Month, y = `Hydroelectric Power Consumption (Trillion Btu)`)) +
+  geom_line(color = "#69b3a2") +
+  xlab("Time") +
+  ylab("Hydroelectric Power Consumption (Trillion Btu)") +
+  theme_bw() +
+  geom_smooth(method = "lm", col = "2") +
+  ggtitle("Plot for Hydroelectric Power Consumption (Trillion Btu)") +
+  scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b") +
+  geom_line(mapping = aes(y = detrend_data3), col = "darkorchid4") +
+  geom_smooth(aes(y = detrend_data3), col = "4", method = "lm")
+hee
+
+```
+
+In the above Hydrolic Power Consumption plot, we can clearly see that the detrended line (purple color) has seasonality. Therefore, detrending helped us in analyzing whether a partiuclar data is seasonal or not.
+
+# Q5
+**Plot ACF and PACF for the detrended series and compare with the plots from Q1. Did the plots change? How?**
+
+```{r Q5.1}
+#Detrended ACF of Total Biomass Energy Production
+acf1 = acf(detrend_data, lag.max = 40, plot = FALSE)
+plot(acf1, main = "Detrended ACF of Total Biomass Energy Production", col = "2")
+
+#Detrended ACF of Total Renewable Energy Production
+acf2= acf(detrend_data2, lag.max = 40, plot = FALSE)
+plot(acf2, main = "Detrended ACF of Total Renewable Energy Production", col = "2")
+
+#Detrended ACF of Hydroelectric Power Consumption
+acf3 = acf(detrend_data3, lag.max = 40, plot = FALSE)
+plot(acf3, main = "Detrended ACF of Hydroelectric Power Consumption", col = "2")
+
+```
+
+IN ACF, there was a minor change in the correlation of the data points with each other. The difference in correlation between the first point and the next increased. 
+
+
+```{r Q5.4}
+#Detrended PACF of Total Biomass Energy Production
+pacf1 = pacf(detrend_data, lag.max = 40, plot = FALSE)
+plot(pacf1, main = "Detrended PACF of Total Biomass Energy Production", 
+     col = "darkorchid4")
+
+#Detrended PACF of Total Renewable Energy Production
+pacf2 = pacf(detrend_data2, lag.max = 40, plot = FALSE)
+plot(pacf2, main = "Detrended PACF of Total Renewable Energy Production", 
+     col = "darkorchid4")
+
+#Detrended PACF of Hydroelectric Power Consumption
+pacf3 = pacf(detrend_data3, lag.max = 40, plot = FALSE)
+plot(pacf3, main = "Detrended PACF of Hydroelectric Power Consumption", 
+     col = "darkorchid4")
+
+```
+
+The PACF plot, however, remained the same. There was no difference in the PACF of this detrended data and the data in Question 1.
+
+***
+
+# Seasonal Component
+
+***Set aside the detrended series and consider the original series again from Q1 to answer Q6 to Q8.***
+
+# Q6
+**Do the series seem to have a seasonal trend? Which serie/series? Use function *lm()* to fit a seasonal means model to this/these time series. Ask R to print the summary of the regression. Interpret the regression output. Save the regression coefficients for further analysis.**
+
+\medskip
+\medskip
+
+Yes, Hydroelectric power consumption is a serie with seasonal trend. 
+
+Below is the summary of linear regression of this time serie. It will be seen from the below summary table that there are some coefficients which have a negative value, whereas, the others have a positive value. It means that the hydroelectric power consumption on certain months decreases, whereas, in certain months, it increases. From August to November, the coefficient is negative. It means that in these months, the consumption decreases. Another thing to note is the P-value of the coefficients. The p-values need to be less than 0.05. At the bottom, we can also see that the adjusted R-squared value is 0.4234. It means that 42.34% of our data is being explained by our regression model. I am unsure of whether this can be considered good or bad in our case, but we have to make do with the kind of data we have.
+
+\newpage
+
+```{r Q6.1}
+dummies = seasonaldummy(eiats[,3])
+seaslm = lm(eia$`Hydroelectric Power Consumption (Trillion Btu)` ~ dummies)
+summary(seaslm)
+
+beta0 = seaslm$coefficients[1]
+beta1 = seaslm$coefficients[2:12]
+
+nobs = nrow(eia)
+
+seas_comp = array(0,nobs)
+
+for(i in 1:nobs){
+  seas_comp[i] = (beta0 + beta1 %*% dummies[i,])
+}
+
+```
+
+\medskip
+
+Below is the plot for original Hydroelectric Power Consumption and its seasonal component.
+
+```{r Q6.2}
+#Plot
+ggplot(eia, aes(x = Month, y = `Hydroelectric Power Consumption (Trillion Btu)`)) +
+  geom_line(color = "#69b3a2") +
+  theme_bw() +
+  ggtitle("Plot for Original Hydroelectric Power Consumption  \n and its Seasonal component") +
+  scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b") +
+  geom_line(aes(y = seas_comp), col = "2")
+
+```
+
+# Q7
+**Use the regression coefficients from Q6 to deseason the series. Plot the deseason series and compare with the plots from part Q1. Did anything change?**
+
+\medskip
+
+```{r Q7}
+deseason = eia[,4] - seas_comp
+
+ggplot(eia, aes(x = Month, y = `Hydroelectric Power Consumption (Trillion Btu)`)) +
+  geom_line(color = "#69b3a2") +
+  theme_bw() +
+  ggtitle("Plot for Seasoned and Deseasoned Hydroelectric Power Consumption") +
+  scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b") +
+  geom_line(aes(y = deseason), col = "2")
+
+```
+
+\medskip
+
+It can be seen from the above plot that the deseasoned graph (purple graph) has shifted down. The points are fluctuaitng around zero. The original plot (blue plot) is plotted at its normal points. It is, therefore, clear that the data is deseasoned. However, if we look at the way points are plotted, we will see no difference. When a point in the original plot goes up, the point in the deseasoned graph also goes up. The only way we can really tell that the purple plot is the deseasoned one is by looking at the y-axis. As mentioned above, the deseasoned graph is fluctuating around zero.
+
+\medskip
+\medskip
+
+# Q8
+**Plot ACF and PACF for the deseason series and compare with the plots from Q1. Did the plots change? How?**
+
+\medskip
+
+Yes, the plots did change. If we look at the original ACF plot, we can clearly identify the seasonality. This is because ACF plots help us in identifying whether there is any seasonality or not. After deseasonality, that seasonal fluctuation is completely gone from the ACF plot. Moreover, in the deseasoned PACF plot, the lines are all between the dotted blue threshold lines. In the original plot, however, this was not the case.
+
+\medskip
+
+```{r Q8.1}
+#Deseasoned ACF of Hydroelectric Power Consumption
+acf4 = acf(deseason,lag.max = 40, plot = FALSE)
+plot(acf4, main = "Deseasoned ACF of Hydroelectric Power Consumption")
+```
+
+\medskip
+
+```{r Q8.2}
+#Deseasoned PACF of Hydroelectric Power Consumption
+pacf4 = pacf(deseason, lag.max = 40, plot = FALSE)
+plot(pacf4, main = "Deseasoned PACF of Hydroelectric Power Consumption")
+
+
+```
+
+***
+
+\newpage
+
+## APPENDIX
+
+```{r ref.label=knitr::all_labels(), echo = T, eval = F}
+```
