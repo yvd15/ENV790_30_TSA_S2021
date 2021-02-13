@@ -13,7 +13,7 @@ eia[2:3] = NULL
 eia[5:12] = NULL
 head(eia)
 
-eiats = ts(data = eia, start = 1, end = 574, frequency = 1)
+eiats = ts(data = eia, start = 1, end = 574, frequency = 12)
 eiats
 is.ts(eiats)
 head(eiats)
@@ -52,7 +52,7 @@ cor3 = cor(eia$`Total Renewable Energy Production (Trillion Btu)`,
 cor3
 #-------------------------------------------------------------------------------
 #Plot for Total Biomass Energy Production
-p = ggplot(data = eiats, aes(x = Month, 
+p = ggplot(data = eia, aes(x = Month, 
                y = `Total Biomass Energy Production (Trillion Btu)`)) + 
   geom_line(color = "#69b3a2") + 
   xlab("Time") + 
@@ -60,7 +60,7 @@ p = ggplot(data = eiats, aes(x = Month,
   theme_bw() +
   ggtitle("Plot of Total Biomass Energy Production \n (Trillion Btu)")
 p + scale_x_date(date_minor_breaks = "2 years", date_labels = "%Y %b") +
-  geom_hline(yintercept = mean(eiats$`Total Biomass Energy Production (Trillion Btu)`), 
+  geom_hline(yintercept = mean(eia$`Total Biomass Energy Production (Trillion Btu)`), 
                color = 2)
 
 #ACF and PACF
