@@ -70,7 +70,7 @@ Common plots for outlier detection are histograms and boxplots. Histograms will 
 
 ggplot(wind_data, aes(x = DATE, y = AWND.1)) +
   geom_line() +
-  xlab("Average Wind Speed") 
+  ylab("Average Wind Speed") 
 
 ```
 ## Using pre-built functio to clean series
@@ -132,9 +132,12 @@ Discussion: Why the missing values??
 
 ## Coding challenge
 ```{r}
-
+nobs = as.numeric(nrow(wind_data))
 #Ex5: Try to reproduce the trend component from decompose().
-
+rep_trend = array(NA, length(clean_wind_data))
+for (i in nobs){
+  rep_trend[i] = (wind_data$AWND[i:6] + wind_data$AWND[nobs-6:nobs]/12)
+}
 
 ```
 
