@@ -103,10 +103,10 @@ abline(h = mean(diff3), col = "darkorchid4", lwd = 3)
 
 #Mann-Kendall Test
 
-mk1 = MannKendall(eia_ts[,1])
+mk1 = SeasonalMannKendall(eia_ts[,1])
 summary(mk1)
 
-mk2 = MannKendall(eia_ts[,2])
+mk2 = SeasonalMannKendall(eia_ts[,2])
 summary(mk2)
 
 mk3 = SeasonalMannKendall(eia_ts[,3])

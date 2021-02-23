@@ -181,18 +181,22 @@ Below are the results for Mann-Kendall test.
 
 \newpage
 
+*For the Mann-Kendall test, I used SeasonalMannKendall() test for all, because all the three variables showed seasonality.* 
+
+\medskip
+
 >**1. Mann-Kendall for Biomass**
 
 ```{r Q2}
 #Mann-Kendall Test
 #Biomass
-mk1 = MannKendall(eia_ts[,1])
+mk1 = SeasonalMannKendall(eia_ts[,1])
 summary(mk1)
 ```
 
 \medskip
 
-It can be seen from the above result that the score is 116,743. It tells us how many times the observation increased from one time step to another. Hence, higher the score, the better. Furthermore, the null hypothesis of Mann-Kendall states that the data is stationary, where as the alternate hypothesis states that there is a trend. The p-value in the above result is 2.22e-16, which is way less than our threshold of 0.05. Therefore, we reject the null hypothesis in favor of alternate hypothesis. It means that the time series data is not stationary, and hence, there is a trend.
+It can be seen from the above result that the score is 9,874. It tells us how many times the observation increased from one time step to another. Hence, higher the score, the better. Furthermore, the null hypothesis of Mann-Kendall states that the data is stationary, where as the alternate hypothesis states that there is a trend. The p-value in the above result is 2.22e-16, which is way less than our threshold of 0.05. Therefore, we reject the null hypothesis in favor of alternate hypothesis. It means that the time series data is not stationary, and hence, there is a trend.
 
 \medskip
 
@@ -202,14 +206,14 @@ It can be seen from the above result that the score is 116,743. It tells us how 
 
 ```{r}
 #Renewables
-mk2 = MannKendall(eia_ts[,2])
+mk2 = SeasonalMannKendall(eia_ts[,2])
 summary(mk2)
 
 ```
 
 \medskip
 
-It can be seen from the above result that the score is 107,415. It tells us how many times the observation increased from one time step to another. Hence, higher the score, the better. Furthermore, the null hypothesis of Mann-Kendall states that the data is stationary, where as the alternate hypothesis states that there is a trend. The p-value in the above result is 2.22e-16, which is way less than our threshold of 0.05. Therefore, we reject the null hypothesis in favor of alternate hypothesis. It means that the time series data is not stationary, and hence, there is a trend.
+It can be seen from the above result that the score is 9,476. It tells us how many times the observation increased from one time step to another. Hence, higher the score, the better. Furthermore, the null hypothesis of Mann-Kendall states that the data is stationary, where as the alternate hypothesis states that there is a trend. The p-value in the above result is 2.22e-16, which is way less than our threshold of 0.05. Therefore, we reject the null hypothesis in favor of alternate hypothesis. It means that the time series data is not stationary, and hence, there is a trend.
 
 \medskip
 
@@ -226,9 +230,7 @@ summary(mk3)
 
 \medskip
 
-For the Mann-Kendall test for Hydroelectric power consumption, I used SeasonalMannKendall() test, because hydroelectric power consumption showed seasonality. 
-
-The above results show that we have a very low negative score of -3880. It means that the trend is decreasing over time. This score is still high for the 574 number of observations that we have. Furthermore, the null hypothesis of Mann-Kendall states that the data is stationary, where as the alternate hypothesis states that there is a trend. The p-value in the above result is 2.22e-16, which is way less than our threshold of 0.05. Therefore, we reject the null hypothesis in favor of alternate hypothesis. It means that the time series data is not stationary, and hence, there is a trend.
+The above results show that we have a very low negative score of -3,880. It means that the trend is decreasing over time. This score is still high for the 574 number of observations that we have. Furthermore, the null hypothesis of Mann-Kendall states that the data is stationary, where as the alternate hypothesis states that there is a trend. The p-value in the above result is 2.22e-16, which is way less than our threshold of 0.05. Therefore, we reject the null hypothesis in favor of alternate hypothesis. It means that the time series data is not stationary, and hence, there is a trend.
 
 \medskip
 
