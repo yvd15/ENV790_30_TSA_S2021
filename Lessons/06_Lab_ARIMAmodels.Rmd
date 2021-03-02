@@ -40,6 +40,7 @@ library(tidyverse)
 
 ```{r}
 #Importing time series data from text file
+setwd("/Users/yashdoshi/Desktop/Duke/Courses/Spring 2021/Time Series Analysis/Labs/Lab Work/ENV790_30_TSA_S2021/Data")
 raw_inflow_data <- read.table(file="../Data/inflowtimeseries.txt",header=FALSE,skip=0)
 
 #Trim the table to include only columns you need
@@ -80,6 +81,10 @@ Since we are working with non-seasonal ARIMA, we need to decompose the series an
 ```{r}
 #Exercise 1: Using R decompose function to decompose the inflow time series for HP15
 
+decomposed = decompose(ts_inflow_data[, "HP15"], "additive")
+plot(decomposed)
+
+no_season = decomposed$x - decomposed$seasonal
 
 
 ```
@@ -92,16 +97,19 @@ The ACF and PACF from the seasonal adjusted series will help you specify compone
 
 #Exercise 2: Creating non-seasonal inflow series for HP 15 using seasadj() function
 
-
+s = seasadj(decomposed)
+s
+plot(s)
 
 #Exercise 3: Compare ACFs for full series and deseason series
 par(mfrow=c(1,2))
-
-
+acf1 = Acf(ts_inflow_data[,"HP15"], lag.max = 40, plot = TRUE)
+acf2 = Acf(s, lag.max = 40, plot = TRUE)
 
 #Exercise 4: Compare PACFs for full series and deseason series
 par(mfrow=c(1,2))
-
+pacf1 = Pacf(ts_inflow_data[,"HP15"], lag.max = 40, plot = TRUE)
+pacf2 = Pacf(s, lag.max = 40, plot = TRUE)
 
 ```
 
@@ -114,7 +122,8 @@ Always check for stationarity before fitting ARIMA models. This will help specif
 
 #Exercise 5: Run ADF/Mann Kendall on deseasonal series and find the value of d
 
-
+mk1 = MannKendall(s)
+summary(mk1)
 
 ```
 
