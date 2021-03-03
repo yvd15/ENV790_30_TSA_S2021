@@ -1,9 +1,9 @@
 ---
 title: "ENV 790.30 - Time Series Analysis for Energy Data | Spring 2021"
 subtitle: "Assignment 5 - Due date 03/12/21"
-author: "Student Name"
+author: "Yash Doshi"
 output: pdf_document
-geometry: margin=2.54cm
+geometry: margin=1.2cm
 header-includes:
   - \usepackage{enumerate}
   - \usepackage{enumitem}
@@ -26,7 +26,9 @@ Packages needed for this assignment: "forecast","tseries". Do not forget to load
 
 ```{r}
 #Load/install required package here
-
+library(forecast)
+library(tseries)
+library(ggplot2)
 ```
 
 
@@ -37,11 +39,18 @@ Describe the important characteristics of the sample autocorrelation function (A
 
 \item AR(2)
 
-> Answer: 
+AR is an autoregressive model, meaning we perform regression on previous observations. The generalize the idea of regression to represent the linear dependence between a dependent variable and an explanatory variable. If we only have one previous observation, then we say that we are working with 1st order autoregressive process, or AR 1 model. The order is related to how many previous observations you have on your regression, or how many previous observations do we need to have a good representation of Yt (our independent variable). 
+
+AR models show a slow decay on ACFs. Slow decay means how long does it take to reach 0 in ACF plot. In simpler terms, if the values go up, they will stay up for sometime. They will not drop from a positive number to a negative number all of a sudden. We can say that AR models have a relatively long memory. Since AR models decay exponentially with time, it means that there is some relationship between the current observation and previous observations. 
+
+The PACF plots will help us in identifying the order of the AR model. PACF will cut-off at the order of the AR model. For instance, if the order is 1, then anything after lag two will be insignificant. There is only one significant correlation with previous observations.
 
 \item MA(1)
 
-> Answer: 
+MA models have short to no memory. Therefore, its plots will have high fluctuations. For instance, it can go from -3 to 6 to -10 in three consecutive time periods. MA components can have an order higher than 1. 
+
+For MA models, ACFs will identify the order of the model. Unlike AR models, there will be no slow decay for MA terms in the ACF. However, PACF of MA models will have a slow, exponential decay. 
+If stationary models have a negative autocorrelation at lag 1, MA terms work the best.
 
 \end{enumerate}
 
@@ -49,7 +58,9 @@ Describe the important characteristics of the sample autocorrelation function (A
 Recall that the non-seasonal ARIMA is described by three parameters ARIMA$(p,d,q)$ where $p$ is the order of the autoregressive component, $d$ is the number of times the series need to be differenced to obtain stationarity and $q$ is the order of the moving average component. If we don't need to difference the series, we don't need to specify the "I" part and we can use the short version, i.e., the ARMA$(p,q)$. Consider three models: ARMA(1,0), ARMA(0,1) and ARMA(1,1) with parameters $\phi=0.6$ and $\theta= 0.9$. The $\phi$ refers to the AR coefficient and the $\theta$ refers to the MA coefficient. Use R to generate $n=100$ observations from each of these three models
 
 ```{r}
-
+model1 = arima.sim(model = list(order = c(1,0,0), ar = 0.6), n = 100)
+model2 = arima.sim(model = list(ma = 0.9), n = 100)
+model3 = arima.sim(model = list(order = c(1,0,1), ar = 0.6, ma = 0.9), n = 100)
 ```
 
 
@@ -58,13 +69,20 @@ Recall that the non-seasonal ARIMA is described by three parameters ARIMA$(p,d,q
 \item Plot the sample ACF for each of these models in one window to facilitate comparison (Hint: use command $par(mfrow=c(1,3))$ that divides the plotting window in three columns).  
 
 ```{r}
-
+par(mfrow = c(1,3))
+acf1 = Acf(model1, lag.max = 40, main = "ACF of ARMA(1,0)")
+acf2 = Acf(model2, lag.max = 40, main = "ACF of ARMA(0,1)")
+acf3 = Acf(model3, lag.max = 40, main = "ACF of ARMA(1,1)")
 ```
 
 
 \item Plot the sample PACF for each of these models in one window to facilitate comparison.  
 
 ```{r}
+par(mfrow = c(1,3))
+pacf1 = Pacf(model1, lag.max = 40, main = "PACF of ARMA(1,0)")
+pacf2 = Pacf(model2, lag.max = 40, main = "PACF of ARMA(0,1)")
+pacf3 = Pacf(model3, lag.max = 40, main = "PACF of ARMA(1,1)")
 
 ```
 
@@ -93,9 +111,21 @@ Consider the ARIMA model $y_t=0.7*y_{t-1}-0.25*y_{t-12}+a_t-0.1*a_{t-1}$
 
 \item Identify the model using the notation ARIMA$(p,d,q)(P,D,Q)_ s$, i.e., identify the integers $p,d,q,P,D,Q,s$ (if possible) from the equation.
 
+p = 1
+d = 0
+q = 1
+P = 1
+D = 0
+Q = 0
+
 \item Also from the equation what are the values of the parameters, i.e., model coefficients. 
 
+p
+
+
 \end{enumerate}
+
+
 ## Q4
 
 Plot the ACF and PACF of a seasonal ARIMA$(0, 1)\times(1, 0)_{12}$ model with $\phi =0 .8$ and $\theta = 0.5$ using R. The $12$ after the bracket tells you that $s=12$, i.e., the seasonal lag is 12, suggesting monthly data whose behavior is repeated every 12 months. You can generate as many observations as you like. Note the Integrated part was omitted. It means the series do not need differencing, therefore $d=D=0$. Plot ACF and PACF for the simulated data. Comment if the plots are well representing the model you simulated, i.e., would you be able to identify the order of both non-seasonal and seasonal components from the plots? Explain.
