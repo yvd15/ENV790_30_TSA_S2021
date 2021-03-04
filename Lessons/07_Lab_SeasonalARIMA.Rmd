@@ -81,6 +81,7 @@ BR_complete <- inner_join(Rainfall_BR_processed,Temp_BR_processed)
 #Exercise 2: Plot both series over time on separate plots. Add a trend line using geom_smooth(). Can you say something about the trend just by visualizing the data?
 
 
+
 ```
 
 ## Creating time series objects
@@ -88,7 +89,8 @@ BR_complete <- inner_join(Rainfall_BR_processed,Temp_BR_processed)
 ```{r}
 #Exercise 3: Create a time series objects for each series using ts(). Make sure you specify the starting point and frequency.
 
-
+rainfall_ts = ts(BR_complete$Rainfall, start = 1901, frequency = 12)
+temperature_ts = ts(BR_complete$Temperature_C, start = 1901, frequency = 12)
 
 ```
 
@@ -111,20 +113,24 @@ Advantage: able to handle data that has multiple seasonal periods.
 
 # Exercise 4: Use the stl() function to decompose both series. 
 
-
+library(stats)
+rainfall_decomposed = stl(rainfall_ts, s.window = 12)
+temperature_decomposed = stl(temperature_ts, s.window = "period")
 
 # Exercise 5: Use the times series object generated with the stl() to extract the 
 # components of each series and turn them into data frames.
 
-
-
+new_rainfall = data.frame(rainfall_decomposed$time.series, BR_complete$Date)
+new_temperature = data.frame(temperature_decomposed$time.series)
 
 # Exercise 6: Visualize how the trend maps onto the data for both series
 
+par(mfrow = c(1,2))
+plot(new_rainfall$trend, type = "l")
+plot(new_temperature$trend, type = "l")
 
-
-
-
+plot(rainfall_decomposed)
+plot(temperature_decomposed)
 
 ```
 
