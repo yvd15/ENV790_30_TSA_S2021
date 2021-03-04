@@ -36,7 +36,7 @@ options(tinytex.verbose = TRUE)
 
 This assignment has general questions about ARIMA Models. 
 
-Packages needed for this assignment: "forecast","tseries". Do not forget to load them before running your script, since they are NOT default packages.
+Packages needed for this assignment: "forecast","tseries". Do not forget to load them before running your script, since they are NOT default packages.\\
 
 ```{r}
 #Load/install required package here
@@ -47,38 +47,30 @@ library(sarima)
 ```
 
 
-# Q1
-
-\medskip
-
+## Q1
 Describe the important characteristics of the sample autocorrelation function (ACF) plot and the partial sample autocorrelation function (PACF) plot for the following models: 
 
 \begin{enumerate}[label=(\alph*)]
 
 \item AR(2)
 
-AR is an autoregressive model, meaning we perform regression on previous observations. The generalize the idea of regression to represent the linear dependence between a dependent variable and an explanatory variable. If we have two previous observations, then we say that we are working with 2nd order autoregressive process, or AR 2 model. The order is related to how many previous observations you have on your regression, or how many previous observations do we need to have a good representation of Yt (our independent variable). 
+AR is an autoregressive model, meaning we perform regression on previous observations. The generalize the idea of regression to represent the linear dependence between a dependent variable and an explanatory variable. If we only have one previous observation, then we say that we are working with 1st order autoregressive process, or AR 1 model. The order is related to how many previous observations you have on your regression, or how many previous observations do we need to have a good representation of Yt (our independent variable). 
 
 AR models show a slow decay on ACFs. Slow decay means how long does it take to reach 0 in ACF plot. In simpler terms, if the values go up, they will stay up for sometime. They will not drop from a positive number to a negative number all of a sudden. We can say that AR models have a relatively long memory. Since AR models decay exponentially with time, it means that there is some relationship between the current observation and previous observations. 
 
 The PACF plots will help us in identifying the order of the AR model. PACF will cut-off at the order of the AR model. For instance, if the order is 1, then anything after lag two will be insignificant. There is only one significant correlation with previous observations.
 
-I would also like to point out that AR(2) means that p = 2. The 2 in brakets give us the order of the model. In this case it is 2, which means that the order of this AR model will be 2. This will also be reflected in the PACF plot for the AR model. The cut off will be at lag 2, so the previous two terms, yt-1 and yt-2, will be needed to represent the series.
-
 \item MA(1)
 
 MA models have short to no memory. Therefore, its plots will have high fluctuations. For instance, it can go from -3 to 6 to -10 in three consecutive time periods. MA components can have an order higher than 1. 
 
-For MA models, ACFs will identify the order of the model. Unlike AR models, there will be no slow decay for MA terms in the ACF. However, PACF of MA models will have a slow, exponential decay. I would also like to point out that MA(1) means that q = 1. The 1 in brakets give us the order of the model. In this case it is 1, which means that the order of this MA model will be 1. This will also be reflected in the ACF plot for the MA model. There will be a cut off at lag 1. Meaning, yt-1 will be needed to represent the series.
+For MA models, ACFs will identify the order of the model. Unlike AR models, there will be no slow decay for MA terms in the ACF. However, PACF of MA models will have a slow, exponential decay. 
 
 If stationary models have a negative autocorrelation at lag 1, MA terms work the best.
 
 \end{enumerate}
 
-# Q2
-
-\medskip
-
+## Q2
 Recall that the non-seasonal ARIMA is described by three parameters ARIMA$(p,d,q)$ where $p$ is the order of the autoregressive component, $d$ is the number of times the series need to be differenced to obtain stationarity and $q$ is the order of the moving average component. If we don't need to difference the series, we don't need to specify the "I" part and we can use the short version, i.e., the ARMA$(p,q)$. Consider three models: ARMA(1,0), ARMA(0,1) and ARMA(1,1) with parameters $\phi=0.6$ and $\theta= 0.9$. The $\phi$ refers to the AR coefficient and the $\theta$ refers to the MA coefficient. Use R to generate $n=100$ observations from each of these three models
 
 ```{r}
@@ -113,19 +105,15 @@ pacf3 = Pacf(model3, lag.max = 40, main = "PACF of ARMA(1,1)")
 
 \item Look at the ACFs and PACFs. Imagine you had these plots for a data set and you were asked to identify the model, i.e., is it AR, MA or ARMA and the order of each component. Would you be identify them correctly? Explain your answer.
 
-**Model 1 -** By looking at the ACF and PACF plots of model 1 (left plot), we can see that the PACF is positive at lag 1 and then it drops to negative (within the limits) at lag 2. It means that it is PACF where the cut-off is happening. Furthermore, we can also notice a slow decay in ACF plot. This proves that the model is an AR model. Since this is an AR model, we can look at the PACF plot to know the order. In this model we can see that the cut-off is at lag 1. It means that the order is 1. AR(1)
+**Model 1 -** By looking at the ACF and PACF plots of model 1 (left plot), we can see that the PACF is positive at lag 1 and then it drops to negative (within the limits) at lag 2. It means that it is PACF where the cut-off is happening. Furthermore, we can also notice a slow decay in ACF plot. This proves that the model is an AR model. Since this is an AR model, we can look at the PACF plot to know the order. In this model we can see that the cut-off is at lag 2. It means that the order is 1. AR(1)
 
 **Model 2-** Model 2 is completely opposite of Model 1. In this model, we can see a clear cut-off in the ACF plot. Furthermore, we can also see a slow decay in the PACF plot of this model. Therefore, this makes it clear that this is an MA model. For the order, we can look at the ACF plot. It can be seen from the plot that after lag 1 all the other lines are within the blue lines. It means that the order of this model is 1. MA(1).
 
-**Model 3-** For this model we will not be able to correctly identify the model. Since it is given in the question that this is an ARMA model with order (1,1), we are able to tell. Without that it would be difficult to tell that this is an ARMA model. The ACF and PACF of the ARMA process is the result of superimposing the AR and MA properties. Therefore, it is difficult to say that this is an ARMA model. If we only looked at the plot, we would have said that this is an MA model with an order of 2. This is because the cut off is at 2 in the ACF plot, and the PACF plot shows a slow decay.
+**Model 3-** For this model we will not be able to correctly identify the model. Since it is given in the question that this is an ARMA model with order (1,1), we are able to tell. Without that it would be difficult to tell that this is an ARMA model. The ACF and PACF of the ARMA process is the result of superimposing the AR and MA properties. Therefore, it is difficult to say that this is an ARMA model.
 
 \item Compare the ACF and PACF values R computed with the theoretical values you provided for the coefficients. Do they match? Explain your answer.
 
-Model 1- Since we know that model 1 is an AR model, we know that we will be looking at Phi. The theoretical value of Phi is 0.6. In the plots we can see that it is 0.58, which is very close to 0.6. Therefore, we can conclude that the ACF and PACF values match a little with the theoretical value.
-
-Model 2- In this MA model, we can see that our theoretical value (theta = 0.9) does not match with the ACF and PACF plots.
-
-Model 3- 
+> Answer: 
 
 
 \item Increase number of observations to $n=1000$ and repeat parts (a)-(d).
@@ -154,31 +142,9 @@ pacf5 = Pacf(model2, lag.max = 40, main = "PACF of ARMA(0,1)")
 pacf6 = Pacf(model3, lag.max = 40, main = "PACF of ARMA(1,1)")
 ```
 
-\medskip
-
-**Comparison of all three models**
-
-**Model 1 -** By looking at the ACF and PACF plots of model 1 (left plot), we can see that the PACF is positive at lag 1 and then it drops within the blue line. It means that it is PACF where the cut-off is happening. Furthermore, we can also notice a slow decay in ACF plot. This proves that the model is an AR model. Since this is an AR model, we can look at the PACF plot to know the order. In this model we can see that the cut-off is at lag 1. It means that the order is 1. AR(1)
-
-**Model 2-** Model 2 is completely opposite of Model 1. In this model, we can see a clear cut-off in the ACF plot. Furthermore, we can also see a slow decay in the PACF plot of this model. Therefore, this makes it clear that this is an MA model. For the order, we can look at the ACF plot. It can be seen from the plot that after lag 1 all the other lines are within the blue lines. It means that the order of this model is 1. MA(1).
-
-**Model 3-** For this model we will not be able to correctly identify the model. Since it is given in the question that this is an ARMA model with order (1,1), we are able to tell. Without that it would be difficult to tell that this is an ARMA model. The ACF and PACF of the ARMA process is the result of superimposing the AR and MA properties. Therefore, it is difficult to say that this is an ARMA model. If we only looked at the plot, we would have said that this is an MA model with an order of 2. This is because the cut off is at 2 in the ACF plot, and the PACF plot shows a slow decay.
-
-
-**Compare the ACF and PACF values R computed with the theoretical values provided for the coefficients**
-
-\medskip
-
-Model 1- Since we know that model 1 is an AR model, we know that we will be looking at Phi. The theoretical value of Phi is 0.6. In the plots we can see that it is 0.58, which is very close to 0.6. Therefore, we can conclude that the ACF and PACF values match a little with the theoretical value.
-
-Model 2- In this MA model, we can see that our theoretical value (theta = 0.9) does not match with the ACF and PACF plots.
-
-Model 3- 
-
-
 \end{enumerate}
 
-# Q3
+## Q3
 
 Consider the ARIMA model $y_t=0.7*y_{t-1}-0.25*y_{t-12}+a_t-0.1*a_{t-1}$
 
@@ -195,30 +161,25 @@ Q = 0
 
 \item Also from the equation what are the values of the parameters, i.e., model coefficients. 
 
-p = 0.75
-d = 0
-q = 0.1
-P = 0.25
-D = 0
-Q = 0
+p
+
 
 \end{enumerate}
 
-# Q4
+
+## Q4
 
 Plot the ACF and PACF of a seasonal ARIMA$(0, 1)\times(1, 0)_{12}$ model with $\phi =0 .8$ and $\theta = 0.5$ using R. The $12$ after the bracket tells you that $s=12$, i.e., the seasonal lag is 12, suggesting monthly data whose behavior is repeated every 12 months. You can generate as many observations as you like. Note the Integrated part was omitted. It means the series do not need differencing, therefore $d=D=0$. Plot ACF and PACF for the simulated data. Comment if the plots are well representing the model you simulated, i.e., would you be able to identify the order of both non-seasonal and seasonal components from the plots? Explain.
 
 ```{r}
 set.seed(123)
-model = sim_sarima(model = list(ma = 0.5, sar = 0.8), 
+model = sim_sarima(model = list(ar = 0.8, ma = 0.5, sar = 0.8, sma = 0.5), 
                    nseasons = 12, n = 100)
 
-par(mfrow = c(1,2))
 model_acf = Acf(model, lag.max = 40, main = "ACF of SARIMA Model")
 model_pacf = Pacf(model, lag.max = 40, main = "PACF of SARIMA Model")
 ```
 
-It is clear from the above plots that they are not well representing the model that I have simulated. From the ACF we can see that the cut-off is at 1. It means that the model is MA. This can also be proved by looking at the PACF plot. In this plot, there is somewhat a slow decay. This is however not very clear since lags 2 and 3 are slightly above the blue threshold line. Furthermore, had it not been mentioned in the question that differencing is 0, we would not have known to look at the same plot for P and Q (SAR and SMA). When we look at the seasonal lags, we find that both ACF and PACF have a cutoff at lag 12, and both of them have a single spike. We know from the question that SAR = 1 (meaning PACF gives single vale of P). This is, however, not clear from the plot. Therefore, it can be concluded that the plot is not well representative of the model that I have simulated.
 
 ## APPENDIX
 

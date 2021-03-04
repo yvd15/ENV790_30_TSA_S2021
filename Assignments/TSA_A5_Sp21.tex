@@ -1,0 +1,381 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={ENV 790.30 - Time Series Analysis for Energy Data \textbar{} Spring 2021},
+  pdfauthor={Yash Doshi},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1.2cm]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{enumerate}
+\usepackage{enumitem}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{ENV 790.30 - Time Series Analysis for Energy Data \textbar{}
+Spring 2021}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Assignment 5 - Due date 03/12/21}
+\author{Yash Doshi}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{directions}{%
+\subsection{Directions}\label{directions}}
+
+You should open the .rmd file corresponding to this assignment on
+RStudio. The file is available on our class repository on Github. And to
+do so you will need to fork our repository and link it to your RStudio.
+
+Once you have the project open the first thing you will do is change
+``Student Name'' on line 3 with your name. Then you will start working
+through the assignment by \textbf{creating code and output} that answer
+each question. Be sure to use this assignment document. Your report
+should contain the answer to each question and any plots/tables you
+obtained (when applicable).
+
+When you have completed the assignment, \textbf{Knit} the text and code
+into a single PDF file. Rename the pdf file such that it includes your
+first and last name (e.g., ``LuanaLima\_TSA\_A05\_Sp21.Rmd''). Submit
+this pdf using Sakai.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}\AttributeTok{echo =}\NormalTok{ F, }\AttributeTok{eval =}\NormalTok{ T, }\AttributeTok{comment =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{message =}\NormalTok{ F,}\AttributeTok{warning =}\NormalTok{ F,}
+                      \AttributeTok{fig.width =} \DecValTok{7}\NormalTok{, }\AttributeTok{fig.height =} \FloatTok{4.2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\hypertarget{questions}{%
+\subsection{Questions}\label{questions}}
+
+This assignment has general questions about ARIMA Models.
+
+Packages needed for this assignment: ``forecast'',``tseries''. Do not
+forget to load them before running your script, since they are NOT
+default packages.
+
+\hypertarget{q1}{%
+\section{Q1}\label{q1}}
+
+\medskip
+
+Describe the important characteristics of the sample autocorrelation
+function (ACF) plot and the partial sample autocorrelation function
+(PACF) plot for the following models:
+
+\begin{enumerate}[label=(\alph*)]
+
+\item AR(2)
+
+AR is an autoregressive model, meaning we perform regression on previous observations. The generalize the idea of regression to represent the linear dependence between a dependent variable and an explanatory variable. If we only have one previous observation, then we say that we are working with 1st order autoregressive process, or AR 1 model. The order is related to how many previous observations you have on your regression, or how many previous observations do we need to have a good representation of Yt (our independent variable). 
+
+AR models show a slow decay on ACFs. Slow decay means how long does it take to reach 0 in ACF plot. In simpler terms, if the values go up, they will stay up for sometime. They will not drop from a positive number to a negative number all of a sudden. We can say that AR models have a relatively long memory. Since AR models decay exponentially with time, it means that there is some relationship between the current observation and previous observations. 
+
+The PACF plots will help us in identifying the order of the AR model. PACF will cut-off at the order of the AR model. For instance, if the order is 1, then anything after lag two will be insignificant. There is only one significant correlation with previous observations.
+
+I would also like to point out that AR(2) means that p = 2. The 2 in brakets give us the order of the model. In this case it is 2, which means that the order of this AR model will be 2. This will also be reflected in the PACF plot for the AR model. The cut off will be at lag 2, so the previous two terms, yt-1 and yt-2, will be needed to represent the series.
+
+\item MA(1)
+
+MA models have short to no memory. Therefore, its plots will have high fluctuations. For instance, it can go from -3 to 6 to -10 in three consecutive time periods. MA components can have an order higher than 1. 
+
+For MA models, ACFs will identify the order of the model. Unlike AR models, there will be no slow decay for MA terms in the ACF. However, PACF of MA models will have a slow, exponential decay. I would also like to point out that MA(1) means that q = 1. The 1 in brakets give us the order of the model. In this case it is 1, which means that the order of this MA model will be 1. This will also be reflected in the ACF plot for the MA model. There will be a cut off at lag 1. Meaning, yt-1 will be needed to represent the series.
+
+If stationary models have a negative autocorrelation at lag 1, MA terms work the best.
+
+\end{enumerate}
+
+\hypertarget{q2}{%
+\section{Q2}\label{q2}}
+
+\medskip
+
+Recall that the non-seasonal ARIMA is described by three parameters
+ARIMA\((p,d,q)\) where \(p\) is the order of the autoregressive
+component, \(d\) is the number of times the series need to be
+differenced to obtain stationarity and \(q\) is the order of the moving
+average component. If we don't need to difference the series, we don't
+need to specify the ``I'' part and we can use the short version, i.e.,
+the ARMA\((p,q)\). Consider three models: ARMA(1,0), ARMA(0,1) and
+ARMA(1,1) with parameters \(\phi=0.6\) and \(\theta= 0.9\). The \(\phi\)
+refers to the AR coefficient and the \(\theta\) refers to the MA
+coefficient. Use R to generate \(n=100\) observations from each of these
+three models
+
+\begin{enumerate}[label=(\alph*)]
+
+\item Plot the sample ACF for each of these models in one window to facilitate comparison (Hint: use command $par(mfrow=c(1,3))$ that divides the plotting window in three columns).  
+
+![](TSA_A5_Sp21_files/figure-latex/unnamed-chunk-5-1.pdf)<!-- --> 
+
+
+\item Plot the sample PACF for each of these models in one window to facilitate comparison.  
+
+![](TSA_A5_Sp21_files/figure-latex/unnamed-chunk-6-1.pdf)<!-- --> 
+
+\item Look at the ACFs and PACFs. Imagine you had these plots for a data set and you were asked to identify the model, i.e., is it AR, MA or ARMA and the order of each component. Would you be identify them correctly? Explain your answer.
+
+**Model 1 -** By looking at the ACF and PACF plots of model 1 (left plot), we can see that the PACF is positive at lag 1 and then it drops to negative (within the limits) at lag 2. It means that it is PACF where the cut-off is happening. Furthermore, we can also notice a slow decay in ACF plot. This proves that the model is an AR model. Since this is an AR model, we can look at the PACF plot to know the order. In this model we can see that the cut-off is at lag 1. It means that the order is 1. AR(1)
+
+**Model 2-** Model 2 is completely opposite of Model 1. In this model, we can see a clear cut-off in the ACF plot. Furthermore, we can also see a slow decay in the PACF plot of this model. Therefore, this makes it clear that this is an MA model. For the order, we can look at the ACF plot. It can be seen from the plot that after lag 1 all the other lines are within the blue lines. It means that the order of this model is 1. MA(1).
+
+**Model 3-** For this model we will not be able to correctly identify the model. Since it is given in the question that this is an ARMA model with order (1,1), we are able to tell. Without that it would be difficult to tell that this is an ARMA model. The ACF and PACF of the ARMA process is the result of superimposing the AR and MA properties. Therefore, it is difficult to say that this is an ARMA model. If we only looked at the plot, we would have said that this is an MA model with an order of 2. This is because the cut off is at 2 in the ACF plot, and the PACF plot shows a slow decay.
+
+\item Compare the ACF and PACF values R computed with the theoretical values you provided for the coefficients. Do they match? Explain your answer.
+
+Model 1- Since we know that model 1 is an AR model, we know that we will be looking at Phi. The theoretical value of Phi is 0.6. In the plots we can see that it is 0.58, which is very close to 0.6. Therefore, we can conclude that the ACF and PACF values match a little with the theoretical value.
+
+Model 2- In this MA model, we can see that our theoretical value (theta = 0.9) does not match with the ACF and PACF plots.
+
+Model 3- 
+
+
+\item Increase number of observations to $n=1000$ and repeat parts (a)-(d).
+
+
+
+![](TSA_A5_Sp21_files/figure-latex/unnamed-chunk-8-1.pdf)<!-- --> 
+
+![](TSA_A5_Sp21_files/figure-latex/unnamed-chunk-9-1.pdf)<!-- --> 
+
+\medskip
+
+**Comparison of all three models**
+
+**Model 1 -** By looking at the ACF and PACF plots of model 1 (left plot), we can see that the PACF is positive at lag 1 and then it drops within the blue line. It means that it is PACF where the cut-off is happening. Furthermore, we can also notice a slow decay in ACF plot. This proves that the model is an AR model. Since this is an AR model, we can look at the PACF plot to know the order. In this model we can see that the cut-off is at lag 1. It means that the order is 1. AR(1)
+
+**Model 2-** Model 2 is completely opposite of Model 1. In this model, we can see a clear cut-off in the ACF plot. Furthermore, we can also see a slow decay in the PACF plot of this model. Therefore, this makes it clear that this is an MA model. For the order, we can look at the ACF plot. It can be seen from the plot that after lag 1 all the other lines are within the blue lines. It means that the order of this model is 1. MA(1).
+
+**Model 3-** For this model we will not be able to correctly identify the model. Since it is given in the question that this is an ARMA model with order (1,1), we are able to tell. Without that it would be difficult to tell that this is an ARMA model. The ACF and PACF of the ARMA process is the result of superimposing the AR and MA properties. Therefore, it is difficult to say that this is an ARMA model. If we only looked at the plot, we would have said that this is an MA model with an order of 2. This is because the cut off is at 2 in the ACF plot, and the PACF plot shows a slow decay.
+
+
+**Compare the ACF and PACF values R computed with the theoretical values provided for the coefficients**
+
+\medskip
+
+Model 1- Since we know that model 1 is an AR model, we know that we will be looking at Phi. The theoretical value of Phi is 0.6. In the plots we can see that it is 0.58, which is very close to 0.6. Therefore, we can conclude that the ACF and PACF values match a little with the theoretical value.
+
+Model 2- In this MA model, we can see that our theoretical value (theta = 0.9) does not match with the ACF and PACF plots.
+
+Model 3- 
+
+
+\end{enumerate}
+
+\hypertarget{q3}{%
+\section{Q3}\label{q3}}
+
+Consider the ARIMA model
+\(y_t=0.7*y_{t-1}-0.25*y_{t-12}+a_t-0.1*a_{t-1}\)
+
+\begin{enumerate}[label=(\alph*)]
+
+\item Identify the model using the notation ARIMA$(p,d,q)(P,D,Q)_ s$, i.e., identify the integers $p,d,q,P,D,Q,s$ (if possible) from the equation.
+
+p = 1
+d = 0
+q = 1
+P = 1
+D = 0
+Q = 0
+
+\item Also from the equation what are the values of the parameters, i.e., model coefficients. 
+
+p = 0.75
+d = 0
+q = 0.1
+P = 0.25
+D = 0
+Q = 0
+
+\end{enumerate}
+
+\hypertarget{q4}{%
+\section{Q4}\label{q4}}
+
+Plot the ACF and PACF of a seasonal ARIMA\((0, 1)\times(1, 0)_{12}\)
+model with \(\phi =0 .8\) and \(\theta = 0.5\) using R. The \(12\) after
+the bracket tells you that \(s=12\), i.e., the seasonal lag is 12,
+suggesting monthly data whose behavior is repeated every 12 months. You
+can generate as many observations as you like. Note the Integrated part
+was omitted. It means the series do not need differencing, therefore
+\(d=D=0\). Plot ACF and PACF for the simulated data. Comment if the
+plots are well representing the model you simulated, i.e., would you be
+able to identify the order of both non-seasonal and seasonal components
+from the plots? Explain.
+
+\includegraphics{TSA_A5_Sp21_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+It is clear from the above plots that they are not well representing the
+model that I have simulated. From the ACF we can see that the cut-off is
+at 1. It means that the model is MA. This can also be proved by looking
+at the PACF plot. In this plot, there is somewhat a slow decay. This is
+however not very clear since lags 2 and 3 are slightly above the blue
+threshold line. Furthermore, had it not been mentioned in the question
+that differencing is 0, we would not have known to look at the same plot
+for P and Q (SAR and SMA). When we look at the seasonal lags, we find
+that both ACF and PACF have a cutoff at lag 12, and both of them have a
+single spike. We know from the question that SAR = 1 (meaning PACF gives
+single vale of P). This is, however, not clear from the plot. Therefore,
+it can be concluded that the plot is not well representative of the
+model that I have simulated.
+
+\hypertarget{appendix}{%
+\subsection{APPENDIX}\label{appendix}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\SpecialCharTok{::}\NormalTok{opts\_chunk}\SpecialCharTok{$}\FunctionTok{set}\NormalTok{(}\AttributeTok{echo =}\NormalTok{ F, }\AttributeTok{eval =}\NormalTok{ T, }\AttributeTok{comment =} \ConstantTok{NA}\NormalTok{, }\AttributeTok{message =}\NormalTok{ F,}\AttributeTok{warning =}\NormalTok{ F,}
+                      \AttributeTok{fig.width =} \DecValTok{7}\NormalTok{, }\AttributeTok{fig.height =} \FloatTok{4.2}\NormalTok{)}
+\FunctionTok{options}\NormalTok{(}\AttributeTok{tinytex.verbose =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\#Load/install required package here}
+\FunctionTok{library}\NormalTok{(forecast)}
+\FunctionTok{library}\NormalTok{(tseries)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(sarima)}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\NormalTok{model1 }\OtherTok{=} \FunctionTok{arima.sim}\NormalTok{(}\AttributeTok{model =} \FunctionTok{list}\NormalTok{(}\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\AttributeTok{ar =} \FloatTok{0.6}\NormalTok{), }\AttributeTok{n =} \DecValTok{100}\NormalTok{)}
+\NormalTok{model2 }\OtherTok{=} \FunctionTok{arima.sim}\NormalTok{(}\AttributeTok{model =} \FunctionTok{list}\NormalTok{(}\AttributeTok{ma =} \FloatTok{0.9}\NormalTok{), }\AttributeTok{n =} \DecValTok{100}\NormalTok{)}
+\NormalTok{model3 }\OtherTok{=} \FunctionTok{arima.sim}\NormalTok{(}\AttributeTok{model =} \FunctionTok{list}\NormalTok{(}\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{ar =} \FloatTok{0.6}\NormalTok{, }\AttributeTok{ma =} \FloatTok{0.9}\NormalTok{), }\AttributeTok{n =} \DecValTok{100}\NormalTok{)}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\NormalTok{acf1 }\OtherTok{=} \FunctionTok{Acf}\NormalTok{(model1, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"ACF of ARMA(1,0)"}\NormalTok{)}
+\NormalTok{acf2 }\OtherTok{=} \FunctionTok{Acf}\NormalTok{(model2, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"ACF of ARMA(0,1)"}\NormalTok{)}
+\NormalTok{acf3 }\OtherTok{=} \FunctionTok{Acf}\NormalTok{(model3, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"ACF of ARMA(1,1)"}\NormalTok{)}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\NormalTok{pacf1 }\OtherTok{=} \FunctionTok{Pacf}\NormalTok{(model1, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"PACF of ARMA(1,0)"}\NormalTok{)}
+\NormalTok{pacf2 }\OtherTok{=} \FunctionTok{Pacf}\NormalTok{(model2, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"PACF of ARMA(0,1)"}\NormalTok{)}
+\NormalTok{pacf3 }\OtherTok{=} \FunctionTok{Pacf}\NormalTok{(model3, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"PACF of ARMA(1,1)"}\NormalTok{)}
+
+\CommentTok{\#Step 1}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\NormalTok{model4 }\OtherTok{=} \FunctionTok{arima.sim}\NormalTok{(}\AttributeTok{model =} \FunctionTok{list}\NormalTok{(}\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{), }\AttributeTok{ar =} \FloatTok{0.6}\NormalTok{), }\AttributeTok{n =} \DecValTok{1000}\NormalTok{)}
+\NormalTok{model5 }\OtherTok{=} \FunctionTok{arima.sim}\NormalTok{(}\AttributeTok{model =} \FunctionTok{list}\NormalTok{(}\AttributeTok{ma =} \FloatTok{0.9}\NormalTok{), }\AttributeTok{n =} \DecValTok{1000}\NormalTok{)}
+\NormalTok{model6 }\OtherTok{=} \FunctionTok{arima.sim}\NormalTok{(}\AttributeTok{model =} \FunctionTok{list}\NormalTok{(}\AttributeTok{order =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{), }\AttributeTok{ar =} \FloatTok{0.6}\NormalTok{, }\AttributeTok{ma =} \FloatTok{0.9}\NormalTok{), }\AttributeTok{n =} \DecValTok{1000}\NormalTok{)}
+\CommentTok{\#Step 2}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\NormalTok{acf4 }\OtherTok{=} \FunctionTok{Acf}\NormalTok{(model1, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"ACF of ARMA(1,0)"}\NormalTok{)}
+\NormalTok{acf5 }\OtherTok{=} \FunctionTok{Acf}\NormalTok{(model2, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"ACF of ARMA(0,1)"}\NormalTok{)}
+\NormalTok{acf6 }\OtherTok{=} \FunctionTok{Acf}\NormalTok{(model3, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"ACF of ARMA(1,1)"}\NormalTok{)}
+\CommentTok{\#Step 3}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\NormalTok{pacf4 }\OtherTok{=} \FunctionTok{Pacf}\NormalTok{(model1, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"PACF of ARMA(1,0)"}\NormalTok{)}
+\NormalTok{pacf5 }\OtherTok{=} \FunctionTok{Pacf}\NormalTok{(model2, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"PACF of ARMA(0,1)"}\NormalTok{)}
+\NormalTok{pacf6 }\OtherTok{=} \FunctionTok{Pacf}\NormalTok{(model3, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"PACF of ARMA(1,1)"}\NormalTok{)}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\NormalTok{model }\OtherTok{=} \FunctionTok{sim\_sarima}\NormalTok{(}\AttributeTok{model =} \FunctionTok{list}\NormalTok{(}\AttributeTok{ma =} \FloatTok{0.5}\NormalTok{, }\AttributeTok{sar =} \FloatTok{0.8}\NormalTok{), }
+                   \AttributeTok{nseasons =} \DecValTok{12}\NormalTok{, }\AttributeTok{n =} \DecValTok{100}\NormalTok{)}
+
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\NormalTok{model\_acf }\OtherTok{=} \FunctionTok{Acf}\NormalTok{(model, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"ACF of SARIMA Model"}\NormalTok{)}
+\NormalTok{model\_pacf }\OtherTok{=} \FunctionTok{Pacf}\NormalTok{(model, }\AttributeTok{lag.max =} \DecValTok{40}\NormalTok{, }\AttributeTok{main =} \StringTok{"PACF of SARIMA Model"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
